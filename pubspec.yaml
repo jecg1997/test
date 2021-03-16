@@ -25,9 +25,11 @@ dependencies:
     sdk: flutter
   circle_button: ^1.0.1
   cupertino_icons: ^1.0.0
-  get: ^3.24.0
   google_fonts: ^1.1.2
   responsive_framework: ^0.0.14
+  get: ^3.25.6
+  universal_io: ^1.0.2
+  dio: ^3.0.10
 
 dev_dependencies:
   flutter_test:
@@ -44,8 +46,9 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-   - images/logo.png
-   - images/nasa.png
+   - assets/logo.png
+   - assets/nasa.png
+   - assets/demo.txt
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

@@ -1,0 +1,3 @@
+Latitude: 40
+Longitude: 12
+Altitude:

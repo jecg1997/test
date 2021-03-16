@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Material App',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Material App Bar'),
+          title: Text('Welcome to Palantir UI'),
         ),
         body: Dashboard(),
       ),

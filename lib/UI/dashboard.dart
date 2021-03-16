@@ -2,8 +2,11 @@ import 'package:circle_button/circle_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palantir/controllers/maincontroller.dart';
+import 'package:palantir/widgets/detail_container.dart';
 
 class Dashboard extends StatelessWidget {
+  final state = Get.put(MainController());
   final String url =
       'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format';
   @override
@@ -35,11 +38,11 @@ class Dashboard extends StatelessWidget {
         Row(
           children: [
             Image.asset(
-              'images/logo.png',
+              'assets/logo.png',
               height: 200,
             ),
             Image.asset(
-              'images/nasa.png',
+              'assets/nasa.png',
               height: 100,
             ),
           ],
@@ -77,7 +80,7 @@ class Dashboard extends StatelessWidget {
             color: Colors.white54,
             padding: EdgeInsets.all(20),
             child: Text(
-              'Select Operation Mode',
+              'Comm-Nav System',
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -90,10 +93,10 @@ class Dashboard extends StatelessWidget {
               child: CircleButton(
                 onPressed: () {},
                 height: MediaQuery.of(Get.context).size.width * 0.20,
-                child: Text(
-                  'IMU Information',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                ),
+                child: Obx(() => DetailContainer(
+                      title: 'IMU Information',
+                      gpsInfo: state.demoString.value.imuInformation?.toJson(),
+                    )),
               ),
             ),
             Padding(
@@ -101,40 +104,41 @@ class Dashboard extends StatelessWidget {
               child: CircleButton(
                   onPressed: () {},
                   height: MediaQuery.of(Get.context).size.width * 0.20,
-                  child: Text(
-                    '   GPS Data   ',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  )),
+                  child: Obx(() => DetailContainer(
+                        title: 'GPS Information',
+                        gpsInfo:
+                            state.demoString.value.gpsInformation?.toJson(),
+                      ))),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 100),
               child: CircleButton(
                   onPressed: () {},
                   height: MediaQuery.of(Get.context).size.width * 0.20,
-                  child: Text(
-                    ' Battery Status ',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  )),
+                  child: Obx(() => DetailContainer(
+                        title: 'Battery Status',
+                        gpsInfo: state.demoString.value.batteryStatus?.toJson(),
+                      ))),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 100),
               child: CircleButton(
                   onPressed: () {},
                   height: MediaQuery.of(Get.context).size.width * 0.20,
-                  child: Text(
-                    '  UHF Status  ',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  )),
+                  child: Obx(() => DetailContainer(
+                        title: 'Radio Status',
+                        gpsInfo: state.demoString.value.radioStatus?.toJson(),
+                      ))),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 100),
               child: CircleButton(
                   onPressed: () {},
                   height: MediaQuery.of(Get.context).size.width * 0.20,
-                  child: Text(
-                    ' Network Info ',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  )),
+                  child: Obx(() => DetailContainer(
+                        title: 'Network Info',
+                        gpsInfo: state.demoString.value.networkInfo?.toJson(),
+                      ))),
             ),
           ],
         ),
@@ -148,37 +152,47 @@ class Dashboard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.green[700],
-            ),
-            onPressed: () {
-              print('BUTON');
-            },
-            child: Text(
-              'Start',
-              style: TextStyle(fontSize: 20),
+          Obx(
+            () => ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green[700],
+              ),
+              onPressed: state.status.value == 'Stopped'
+                  ? () {
+                      state.startTimer();
+                    }
+                  : null,
+              child: Text(
+                'Start',
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ),
           Container(
             width: 200,
             color: Colors.grey,
             padding: EdgeInsets.all(10),
-            child: Text(
-              'Status: ',
-              style: TextStyle(fontSize: 20),
+            child: Obx(
+              () => Text(
+                'Status: ${state.status.value}',
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red[700],
-            ),
-            onPressed: () {
-              print('BUTON');
-            },
-            child: Text(
-              'Stop',
-              style: TextStyle(fontSize: 20),
+          Obx(
+            () => ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red[700],
+              ),
+              onPressed: state.status.value != 'Stopped'
+                  ? () {
+                      state.stopTimer();
+                    }
+                  : null,
+              child: Text(
+                'Stop',
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ),
         ],
