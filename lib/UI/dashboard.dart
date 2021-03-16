@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:circle_button/circle_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +20,14 @@ class Dashboard extends StatelessWidget {
           image: NetworkImage(url),
         ),
       ),
-      child: Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            header(),
-            mainButtons(),
-            footer(),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          header(),
+          title(),
+          //Padding(padding: const EdgeInsets.all(50.0)),
+          Expanded(child: mainButtons()),
+        ],
       ),
     );
   }
@@ -41,162 +42,158 @@ class Dashboard extends StatelessWidget {
               'assets/logo.png',
               height: 200,
             ),
+            Padding(padding: const EdgeInsets.all(10.0)),
             Image.asset(
               'assets/nasa.png',
-              height: 100,
+              height: 150,
             ),
           ],
         ),
-        Row(
-          children: [
-            MaterialButton(
-              colorBrightness: Brightness.dark,
-              onPressed: () {},
-              child: Text(
-                'About',
-                style: TextStyle(fontSize: 20),
+        Center(
+          child: Row(
+            children: [
+              MaterialButton(
+                colorBrightness: Brightness.dark,
+                onPressed: () {},
+                child: Text(
+                  'About',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-            ),
-            MaterialButton(
-              colorBrightness: Brightness.dark,
-              onPressed: () {},
-              child: Text(
-                'Need help?',
-                style: TextStyle(fontSize: 20),
-              ),
-            )
-          ],
+              MaterialButton(
+                colorBrightness: Brightness.dark,
+                onPressed: () {},
+                child: Text(
+                  'Need help?',
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
+            ],
+          ),
         ),
       ],
+    );
+  }
+
+  Widget title() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        color: Colors.white54,
+        padding: EdgeInsets.all(20),
+        width: 500,
+        height: 250,
+        child: Obx(
+          () => Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                'Comm-Nav System',
+                style: TextStyle(fontSize: 30),
+              ),
+              Text(
+                state.isRunning() ? 'Status: Running' : 'Status: Stopped',
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(
+                width: double.maxFinite,
+                height: 100,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary:
+                        state.isRunning() ? Colors.red[700] : Colors.green[700],
+                  ),
+                  onPressed: () {
+                    if (state.isRunning()) {
+                      state.stopTimer();
+                    } else {
+                      state.startTimer();
+                    }
+                  },
+                  child: Text(
+                    state.isRunning() ? 'Stop' : 'Start',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget mainButtons() {
-    return Column(
+    double percent = Get.width * 0.2;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            color: Colors.white54,
-            padding: EdgeInsets.all(20),
-            child: Text(
-              'Comm-Nav System',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 100),
-              child: CircleButton(
-                onPressed: () {},
-                height: MediaQuery.of(Get.context).size.width * 0.20,
-                child: Obx(() => DetailContainer(
-                      title: 'IMU Information',
-                      gpsInfo: state.demoString.value.imuInformation?.toJson(),
-                    )),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 100),
-              child: CircleButton(
-                  onPressed: () {},
-                  height: MediaQuery.of(Get.context).size.width * 0.20,
-                  child: Obx(() => DetailContainer(
-                        title: 'GPS Information',
-                        gpsInfo:
-                            state.demoString.value.gpsInformation?.toJson(),
-                      ))),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 100),
-              child: CircleButton(
-                  onPressed: () {},
-                  height: MediaQuery.of(Get.context).size.width * 0.20,
-                  child: Obx(() => DetailContainer(
-                        title: 'Battery Status',
-                        gpsInfo: state.demoString.value.batteryStatus?.toJson(),
-                      ))),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 100),
-              child: CircleButton(
-                  onPressed: () {},
-                  height: MediaQuery.of(Get.context).size.width * 0.20,
-                  child: Obx(() => DetailContainer(
-                        title: 'Radio Status',
-                        gpsInfo: state.demoString.value.radioStatus?.toJson(),
-                      ))),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 100),
-              child: CircleButton(
-                  onPressed: () {},
-                  height: MediaQuery.of(Get.context).size.width * 0.20,
-                  child: Obx(() => DetailContainer(
-                        title: 'Network Info',
-                        gpsInfo: state.demoString.value.networkInfo?.toJson(),
-                      ))),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget footer() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 40),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Obx(
-            () => ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green[700],
-              ),
-              onPressed: state.status.value == 'Stopped'
-                  ? () {
-                      state.startTimer();
-                    }
-                  : null,
-              child: Text(
-                'Start',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          ),
-          Container(
-            width: 200,
-            color: Colors.grey,
-            padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.only(bottom: 100),
+          child: CircleButton(
+            onPressed: () {},
+            height: percent,
+            width: percent,
             child: Obx(
-              () => Text(
-                'Status: ${state.status.value}',
-                style: TextStyle(fontSize: 20),
+              () => DetailContainer(
+                title: 'IMU Information',
+                gpsInfo: state.demoString.value.imuInformation?.toJson(),
               ),
             ),
           ),
-          Obx(
-            () => ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red[700],
-              ),
-              onPressed: state.status.value != 'Stopped'
-                  ? () {
-                      state.stopTimer();
-                    }
-                  : null,
-              child: Text(
-                'Stop',
-                style: TextStyle(fontSize: 20),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 100),
+          child: CircleButton(
+            onPressed: () {},
+            height: percent,
+            width: percent,
+            child: Obx(
+              () => DetailContainer(
+                title: 'GPS Information',
+                gpsInfo: state.demoString.value.gpsInformation?.toJson(),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 100),
+          child: CircleButton(
+            onPressed: () {},
+            height: percent,
+            width: percent,
+            child: Obx(
+              () => DetailContainer(
+                title: 'Battery Status',
+                gpsInfo: state.demoString.value.batteryStatus?.toJson(),
+              ),
+            ),
+          ),
+        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 100),
+        //   child: CircleButton(
+        //     onPressed: () {},
+        //     height: MediaQuery.of(Get.context).size.width * 0.20,
+        //     child: Obx(
+        //       () => DetailContainer(
+        //         title: 'Radio Status',
+        //         gpsInfo: state.demoString.value.radioStatus?.toJson(),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.only(bottom: 100),
+        //   child: CircleButton(
+        //       onPressed: () {},
+        //       height: MediaQuery.of(Get.context).size.width * 0.20,
+        //       child: Obx(() => DetailContainer(
+        //             title: 'Network Info',
+        //             gpsInfo: state.demoString.value.networkInfo?.toJson(),
+        //           ))),
+        // ),
+      ],
     );
   }
 }
