@@ -12,14 +12,18 @@ class DetailContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => SizedBox(
-        height: 150,
-        width: 150,
-        child: state.status.value == 'Stopped'
+        height: 250,
+        width: 250,
+        child: !state.isRunning()
             ? Center(
                 child: Text(
-                'Not Running',
-                style: TextStyle(color: Colors.black),
-              ))
+                  'Not Running',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ),
+                ),
+              )
             : Center(
                 child: gpsInfo == null
                     ? CircularProgressIndicator()
@@ -30,7 +34,7 @@ class DetailContainer extends StatelessWidget {
                             title,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -51,7 +55,10 @@ List<Widget> getTextWidgets(Map strings) {
   strings.forEach((key, value) {
     list.add(Text(
       '$key: $value',
-      style: TextStyle(color: Colors.black),
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 25,
+      ),
       textAlign: TextAlign.center,
     ));
   });

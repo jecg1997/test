@@ -9,7 +9,7 @@ import 'package:dio/dio.dart';
 
 class MainController extends GetxController {
   final demoString = GpsInformation().obs;
-  final status = 'Stopped'.obs;
+  final isRunning = RxBool(false);
   Timer timer;
   onInit() async {
     super.onInit();
@@ -17,14 +17,14 @@ class MainController extends GetxController {
 
   stopTimer() {
     timer.cancel();
-    status.value = 'Stopped';
+    isRunning(false);
   }
 
   startTimer() {
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
       loadAsset();
     });
-    status.value = 'Started';
+    isRunning(true);
   }
 
   Future<dynamic> loadAsset() async {
