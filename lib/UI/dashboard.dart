@@ -137,32 +137,26 @@ class Dashboard extends StatelessWidget {
             Obx(
               () => DetailContainer(
                 title: 'IMU Information',
-                gpsInfo: state.demoString.value.imuInformation?.toJson(),
+                gpsInfo: state.demoString.value.imu,
               ),
             ),
             Obx(
               () => DetailContainer(
                 title: 'GPS Information',
-                gpsInfo: state.demoString.value.gpsInformation?.toJson(),
+                gpsInfo: state.demoString.value.gps.toJson(),
               ),
             ),
-            Obx(
-              () => DetailContainer(
-                title: 'Battery Status',
-                gpsInfo: state.demoString.value.batteryStatus?.toJson(),
-              ),
+            DetailContainer(
+              title: 'Battery Status',
+              gpsInfo: {},
             ),
-            Obx(
-              () => DetailContainer(
-                title: 'Lidar Power Information',
-                gpsInfo: state.demoString.value.batteryStatus?.toJson(),
-              ),
+            DetailContainer(
+              title: 'Lidar Power Information',
+              gpsInfo: {},
             ),
-            Obx(
-              () => DetailContainer(
-                title: 'Network Status',
-                gpsInfo: state.demoString.value.networkInfo?.toJson(),
-              ),
+            DetailContainer(
+              title: 'Network Status',
+              gpsInfo: {},
             ),
             header(),
           ],

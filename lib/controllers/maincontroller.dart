@@ -1,14 +1,11 @@
-import 'dart:convert';
-
-import 'package:palantir/model/gpsInformation.dart';
-import 'package:universal_io/io.dart';
+import 'package:palantir/model/sensorinfo.dart';
 import 'package:get/get.dart';
 import 'dart:async' show Future, Timer;
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+import 'package:universal_html/html.dart';
 
 class MainController extends GetxController {
-  final demoString = GpsInformation().obs;
+  final demoString = SensorInfo().obs;
   final isRunning = RxBool(false);
   Timer timer;
   onInit() async {
@@ -28,11 +25,7 @@ class MainController extends GetxController {
   }
 
   Future<dynamic> loadAsset() async {
-    var response = await Dio().get('http://localhost:3000/demo.txt');
-    print(response.data);
-    demoString.value = gpsInformationFromJson(response.data);
-
-    return gpsInformationFromJson(response.data);
-    ;
+    String result = (await http.get("GPS_Dataframe.JSON")).body;
+    return sensorInfoFromJson(result);
   }
 }

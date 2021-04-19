@@ -5,26 +5,27 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:dio/adapter.dart';
+import 'package:dio/dio.dart';
+import 'package:palantir/model/sensorinfo.dart';
+import 'package:universal_io/io.dart';
 
-import 'package:palantir/main.dart';
+void main() async {
+  await loadAsset();
+}
 
-void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+Future<dynamic> loadAsset() async {
+  Dio dio = Dio();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+      (HttpClient client) {
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+    return client;
+  };
+  var response = await dio.get('https://192.168.1.35/GPS_Dataframe.JSON');
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  print(response.data);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+  return sensorInfoFromJson(response.data);
 }
