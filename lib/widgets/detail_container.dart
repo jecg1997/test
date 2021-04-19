@@ -11,40 +11,43 @@ class DetailContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => SizedBox(
-        height: 250,
-        width: 250,
-        child: !state.isRunning()
-            ? Center(
-                child: Text(
-                  'Not Running',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
+      () => Container(
+        color: Colors.white60,
+        child: SizedBox(
+          height: 165,
+          width: 165,
+          child: !state.isRunning()
+              ? Center(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 35,
+                    ),
                   ),
-                ),
-              )
-            : Center(
-                child: gpsInfo == null
-                    ? CircularProgressIndicator()
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            title,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
+                )
+              : Center(
+                  child: gpsInfo == null
+                      ? CircularProgressIndicator()
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: getTextWidgets(gpsInfo),
-                          ),
-                        ],
-                      ),
-              ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: getTextWidgets(gpsInfo),
+                            ),
+                          ],
+                        ),
+                ),
+        ),
       ),
     );
   }

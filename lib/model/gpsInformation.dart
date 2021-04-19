@@ -44,16 +44,20 @@ class GpsInformation {
 class BatteryStatus {
   BatteryStatus({
     this.voltage,
+    this.current,
   });
 
   String voltage;
+  String current;
 
   factory BatteryStatus.fromJson(Map<String, dynamic> json) => BatteryStatus(
         voltage: json["Voltage"],
+        current: json["Current"],
       );
 
   Map<String, dynamic> toJson() => {
         "Voltage": voltage,
+        "Current": current,
       };
 }
 
