@@ -4,6 +4,7 @@ import 'package:circle_button/circle_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:palantir/controllers/maincontroller.dart';
 import 'package:palantir/widgets/detail_container.dart';
 
@@ -32,7 +33,9 @@ class Dashboard extends StatelessWidget {
             left: 75,
             child: MaterialButton(
               colorBrightness: Brightness.dark,
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+              },
               child: Text(
                 'Gandalf Staff Home',
                 style: TextStyle(fontSize: 35),
@@ -52,8 +55,8 @@ class Dashboard extends StatelessWidget {
             child: Obx(
               () => CircleButton(
                 state: state,
-                height: 325,
-                width: 350,
+                height: 300,
+                width: 300,
                 onPressed: () {
                   if (state.isRunning()) {
                     state.stopTimer();
@@ -129,7 +132,7 @@ class Dashboard extends StatelessWidget {
         child: GridView.count(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          childAspectRatio: 4.0,
+          childAspectRatio: 3.4,
           mainAxisSpacing: 35,
           crossAxisCount: 2,
           crossAxisSpacing: 50,
@@ -143,20 +146,37 @@ class Dashboard extends StatelessWidget {
             Obx(
               () => DetailContainer(
                 title: 'GPS Information',
-                gpsInfo: state.demoString.value.gps.toJson(),
+                gpsInfo: state.demoString.value.gps == null
+                    ? null
+                    : state.demoString.value.gps.toJson(),
               ),
             ),
-            DetailContainer(
-              title: 'Battery Status',
-              gpsInfo: {},
+            Obx(
+              () => DetailContainer(
+                title: 'Battery Status',
+                gpsInfo: state.demoString.value.battery == null
+                    ? null
+                    : state.demoString.value.battery.toJson(),
+              ),
             ),
-            DetailContainer(
-              title: 'Lidar Power Information',
-              gpsInfo: {},
+            Obx(
+              () => DetailContainer(
+                title: 'Lidar Power Information',
+                gpsInfo: state.demoString.value.battery == null
+                    ? null
+                    : state.demoString.value.battery.toJson(),
+              ),
             ),
-            DetailContainer(
-              title: 'Network Status',
-              gpsInfo: {},
+            Obx(
+              () => DetailContainer(
+                title: 'Network IP',
+                gpsInfo: state.demoString.value.battery == null
+                    ? null
+                    : {
+                        "RaspberryPi": "192.168.1.35",
+                        "PC": "192.168.1.10",
+                      },
+              ),
             ),
             header(),
           ],

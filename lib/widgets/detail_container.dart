@@ -40,10 +40,22 @@ class DetailContainer extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: getTextWidgets(gpsInfo),
-                            ),
+                            gpsInfo.length > 5
+                                ? Expanded(
+                                    child: GridView.count(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 0,
+                                      crossAxisSpacing: 0,
+                                      childAspectRatio: 12,
+                                      shrinkWrap: true,
+                                      children: getTextWidgets(gpsInfo),
+                                    ),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: getTextWidgets(gpsInfo),
+                                  ),
                           ],
                         ),
                 ),

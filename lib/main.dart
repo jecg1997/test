@@ -21,9 +21,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Palantir UI',
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Welcome to Palantir UI'),
-        ),
         body: Dashboard(),
       ),
     );
