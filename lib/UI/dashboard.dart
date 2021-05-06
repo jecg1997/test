@@ -151,26 +151,18 @@ class Dashboard extends StatelessWidget {
                     : state.demoString.value.gps.toJson(),
               ),
             ),
-            Obx(
-              () => DetailContainer(
-                title: 'Battery Status',
-                gpsInfo: state.demoString.value.battery == null
-                    ? null
-                    : state.demoString.value.battery.toJson(),
-              ),
+            DetailContainer(
+              title: 'Battery Status',
+              gpsInfo: {},
             ),
-            Obx(
-              () => DetailContainer(
-                title: 'Lidar Power Information',
-                gpsInfo: state.demoString.value.battery == null
-                    ? null
-                    : state.demoString.value.battery.toJson(),
-              ),
+            DetailContainer(
+              title: 'Lidar Power Information',
+              gpsInfo: {},
             ),
             Obx(
               () => DetailContainer(
                 title: 'Network IP',
-                gpsInfo: state.demoString.value.battery == null
+                gpsInfo: state.demoString.value.imu == null
                     ? null
                     : {
                         "RaspberryPi": "192.168.1.35",

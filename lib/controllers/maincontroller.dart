@@ -37,7 +37,7 @@ class MainController extends GetxController {
     var result =
         sensorInfoFromJson(await response.transform(utf8.decoder).join());
     // print(sensorInfoFromJson(await response.transform(utf8.decoder).join()));
-    print(result.battery.voltage);
+    //print(result.battery.voltage);
     return result;
 
     //   String result = await rootBundle.loadString('assets/GPS_Dataframe.JSON');
