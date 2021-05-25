@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:palantir/controllers/maincontroller.dart';
 import 'package:palantir/widgets/detail_container.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Dashboard extends StatelessWidget {
   final state = Get.put(MainController());
@@ -34,7 +35,7 @@ class Dashboard extends StatelessWidget {
             child: MaterialButton(
               colorBrightness: Brightness.dark,
               onPressed: () {
-                Get.back();
+                launchURL('http://')
               },
               child: Text(
                 'Gandalf Staff Home',
@@ -199,3 +200,6 @@ ElevatedButton CircleButton(
     onPressed: onPressed,
   );
 }
+
+void launchURL(String url) async =>
+    await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
