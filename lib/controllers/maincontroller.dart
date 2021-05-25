@@ -31,7 +31,7 @@ class MainController extends GetxController {
       ..badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await client
-        .getUrl(Uri.parse("http://192.168.1.35/GPS_Dataframe.JSON"));
+        .getUrl(Uri.parse("https://192.168.1.35/GPS_Dataframe.JSON"));
     HttpClientResponse response = await request.close();
     //final result = await http.get("https://192.168.1.35/GPS_Dataframe.JSON");
     var result =
